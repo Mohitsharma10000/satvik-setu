@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "400847298160",
+    "project_id": "service-60f49",
+    "storage_bucket": "service-60f49.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:400847298160:android:7123ab86f058e9173c5eb5",
+        "android_client_info": {
+          "package_name": "com.service.SevaConnect"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "400847298160-agpqnbq6ie409ptketrj1aeephhv7ono.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.service.SevaConnect",
+            "certificate_hash": "f7f41073796769ee6465ea1523a12d3da8eeb9c2"
+          }
+        },
+        {
+          "client_id": "400847298160-qblo91on2ladp1q040h3r61ieg9n2gpl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCuyt24lHsHrDDOF5K-3t18kCAkpU-r13w"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "400847298160-qblo91on2ladp1q040h3r61ieg9n2gpl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

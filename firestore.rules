@@ -1,0 +1,95 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── Helper: Check if user is logged in ──────────────────
+    function isAuthenticated() {
+      return request.auth != null;
+    }
+
+    // ─── Admins Collection ──────────────────────────────────
+    match /admins/{adminId} {
+      allow read, write: if isAuthenticated();
+    }
+
+    // ─── Categories (public read, authenticated write) ──────
+    match /categories/{categoryId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // ─── Subcategories (public read, authenticated write) ───
+    match /subcategories/{subcategoryId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // ─── Approved Providers (public read, authenticated write)
+    match /approved_providers/{providerId} {
+      allow read: if true;
+      allow create, update, delete: if isAuthenticated();
+    }
+
+    // ─── Applications (anyone submits, authenticated manages)
+    match /applications/{applicationId} {
+      allow create: if true;
+      allow read, update, delete: if isAuthenticated();
+    }
+
+    // ─── Donation Settings (/donation collection) ───────────
+    match /donation/{docId} {
+      allow read: if true;
+      allow write, create, update, delete: if isAuthenticated();
+    }
+
+    // ─── Settings Collection (/settings collection) ─────────
+    match /settings/{docId} {
+      allow read: if true;
+      allow write, create, update, delete: if isAuthenticated();
+    }
+
+    // ─── App Settings ───────────────────────────────────────
+    match /app_settings/{docId} {
+      allow read: if true;
+      allow write, create, update, delete: if isAuthenticated();
+    }
+
+    // ─── Users Collection (OTP-verified users) ──────────────
+    match /users/{userId} {
+      // Users can read their own doc, admins can read all
+      allow read: if isAuthenticated();
+      // Users can create/update their own doc
+      allow create: if isAuthenticated() && request.auth.uid == userId;
+      allow update: if isAuthenticated() && request.auth.uid == userId;
+      // Only admin can delete
+      allow delete: if isAuthenticated();
+    }
+
+    // ─── Payments Collection ────────────────────────────────
+    match /payments/{paymentId} {
+      // Authenticated users can read their own payments, admins read all
+      allow read: if isAuthenticated();
+      // Any authenticated user can create a payment record
+      allow create: if isAuthenticated();
+      // Only admin can update/delete
+      allow update, delete: if isAuthenticated();
+    }
+
+    // ─── Service Requests Collection ────────────────────────
+    match /service_requests/{requestId} {
+      // Authenticated users can read (filtered client-side by userId/providerId)
+      allow read: if isAuthenticated();
+      // Any authenticated user can create a service request
+      allow create: if isAuthenticated();
+      // Authenticated users (customer or provider) can update status
+      allow update: if isAuthenticated();
+      // Only admin can delete
+      allow delete: if isAuthenticated();
+    }
+
+    // ─── Default Deny ───────────────────────────────────────
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

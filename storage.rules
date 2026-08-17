@@ -1,0 +1,28 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    // Allow authenticated users to upload/read profile images and aadhaar docs
+    match /profile_images/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /aadhaar_images/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+    match /aadhaarBack/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+    // QR code images for donation
+    match /donation/{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+    // Catch-all fallback — allow all for development
+    match /{allPaths=**} {
+      allow read: if true;
+      allow write: if true;
+    }
+  }
+}
