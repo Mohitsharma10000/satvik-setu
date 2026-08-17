@@ -5,7 +5,6 @@
 *.swp
 .DS_Store
 .atom/
-.build/
 .buildlog/
 .history
 .svn/
@@ -26,7 +25,6 @@
 .flutter-plugins-dependencies
 .pub-cache/
 .pub/
-**/build/
 **/coverage/
 
 # Android build outputs
@@ -35,3 +33,15 @@
 **/android/app/release
 **/android/.gradle/
 **/android/local.properties
+
+# Exclude other builds but KEEP service_finder/build/web for Cloudflare Pages
+service_finder_admin/build/
+service_finder/build/app/
+service_finder/build/cloud_firestore/
+service_finder/build/firebase_auth/
+service_finder/build/firebase_core/
+service_finder/build/firebase_messaging/
+service_finder/build/firebase_storage/
+service_finder/build/geolocator_android/
+service_finder/build/google_sign_in_android/
+service_finder/build/image_picker_android/
