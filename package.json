@@ -1,0 +1,9 @@
+{
+  "name": "satvik-setu",
+  "version": "1.0.0",
+  "private": true,
+  "description": "SATVIKSETU - Verified Local Service Finder",
+  "scripts": {
+    "build": "echo 'Build handled by GitHub Actions'"
+  }
+}
