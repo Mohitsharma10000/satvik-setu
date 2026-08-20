@@ -2,7 +2,7 @@ import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentService {
   late Razorpay _razorpay;
-  static const String razorpayKey = 'rzp_live_SyEgfbybUpeZa';
+  static const String razorpayKey = 'rzp_live_SyEgfbybUpeZaz';
 
   Function(Map<dynamic, dynamic> response)? _onSuccessCallback;
   Function(String error)? _onErrorCallback;

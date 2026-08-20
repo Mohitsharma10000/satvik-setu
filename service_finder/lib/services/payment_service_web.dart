@@ -2,7 +2,7 @@
 import 'dart:js' as js;
 
 class PaymentService {
-  static const String razorpayKey = 'rzp_live_SyEgfbybUpeZa';
+  static const String razorpayKey = 'rzp_live_SyEgfbybUpeZaz';
 
   PaymentService();
 
