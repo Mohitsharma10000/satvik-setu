@@ -50,6 +50,46 @@ class PaymentService {
         'theme': {
           'color': '#1E88E5',
         },
+        'method': {
+          'upi': true,
+          'card': true,
+          'netbanking': true,
+          'wallet': true,
+        },
+        'config': {
+          'display': {
+            'blocks': {
+              'upi': {
+                'name': 'Pay via UPI',
+                'instruments': [
+                  {
+                    'method': 'upi',
+                    'flows': ['intent', 'qr', 'collect'],
+                    'apps': ['google_pay', 'phonepe', 'paytm', 'bhim'],
+                  },
+                ],
+              },
+              'other': {
+                'name': 'Other Payment Modes',
+                'instruments': [
+                  {
+                    'method': 'card',
+                  },
+                  {
+                    'method': 'netbanking',
+                  },
+                  {
+                    'method': 'wallet',
+                  },
+                ],
+              },
+            },
+            'sequence': ['block.upi', 'block.other'],
+            'preferences': {
+              'show_default_blocks': true,
+            },
+          },
+        },
         'prefill': {
           if (phone != null && phone.isNotEmpty) 'contact': phone,
           if (email != null && email.isNotEmpty) 'email': email,
