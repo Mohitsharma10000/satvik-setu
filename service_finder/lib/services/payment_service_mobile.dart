@@ -58,6 +58,13 @@ class PaymentService {
       'name': 'SATVIKSETU',
       'description': description,
       'theme': {'color': '#1E88E5'},
+      'webview_intent': true,
+      'method': {
+        'upi': true,
+        'card': true,
+        'netbanking': true,
+        'wallet': true,
+      },
     };
 
     final prefill = <String, String>{};

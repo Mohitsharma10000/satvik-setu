@@ -32,6 +32,7 @@ class PaymentService {
         'currency': 'INR',
         'name': 'SATVIKSETU',
         'description': description,
+        'webview_intent': true,
         'handler': (dynamic response) {
           final paymentId = response != null ? response['razorpay_payment_id']?.toString() ?? '' : '';
           final orderId = response != null ? response['razorpay_order_id']?.toString() ?? '' : '';
