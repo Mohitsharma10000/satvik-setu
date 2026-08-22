@@ -1,8 +1,11 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class PaymentService {
   late Razorpay _razorpay;
   static const String razorpayKey = 'rzp_live_SyEgfbybUpeZaz';
+  static const String razorpaySecret = 'I52KxvhmJK2wsCZDXe0jTgU8';
 
   Function(Map<dynamic, dynamic> response)? _onSuccessCallback;
   Function(String error)? _onErrorCallback;
@@ -34,6 +37,33 @@ class PaymentService {
 
   void _handleExternalWallet(ExternalWalletResponse response) {}
 
+  Future<String?> _createOrderId(double amount) async {
+    final amountInPaise = (amount * 100).toInt();
+    try {
+      final auth = base64Encode(utf8.encode('$razorpayKey:$razorpaySecret'));
+      final res = await http.post(
+        Uri.parse('https://api.razorpay.com/v1/orders'),
+        headers: {
+          'Authorization': 'Basic $auth',
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          'amount': amountInPaise,
+          'currency': 'INR',
+          'receipt': 'rcpt_${DateTime.now().millisecondsSinceEpoch}',
+        }),
+      ).timeout(const Duration(seconds: 8));
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        final data = jsonDecode(res.body);
+        return data['id'] as String?;
+      }
+    } catch (e) {
+      print('Razorpay Order API Error: $e');
+    }
+    return null;
+  }
+
   void openCheckout({
     required double amount,
     String? phone,
@@ -41,7 +71,7 @@ class PaymentService {
     required String description,
     required Function(Map<dynamic, dynamic> response) onSuccess,
     required Function(String error) onError,
-  }) {
+  }) async {
     _onSuccessCallback = onSuccess;
     _onErrorCallback = onError;
 
@@ -51,21 +81,20 @@ class PaymentService {
       return;
     }
 
-    var options = {
+    final orderId = await _createOrderId(amount);
+
+    var options = <String, dynamic>{
       'key': razorpayKey,
       'amount': amountInPaise,
       'currency': 'INR',
       'name': 'SATVIKSETU',
       'description': description,
       'theme': {'color': '#1E88E5'},
-      'webview_intent': true,
-      'method': {
-        'upi': true,
-        'card': true,
-        'netbanking': true,
-        'wallet': true,
-      },
     };
+
+    if (orderId != null && orderId.isNotEmpty) {
+      options['order_id'] = orderId;
+    }
 
     final prefill = <String, String>{};
     if (phone != null && phone.isNotEmpty) prefill['contact'] = phone;
